@@ -1,14 +1,13 @@
 <div class="tdx-stepper" [ngClass]="hostClasses">
   <ol class="tdx-stepper__list">
     <li
-      *ngFor="let step of steps; let index = index; let first = first; let last = last"
+      *ngFor="let step of steps; let index = index"
       class="tdx-stepper__item"
       [ngClass]="getStepClasses(step, index)"
       [attr.data-state]="getStepVisualState(step, index)"
     >
       <span
         class="tdx-stepper__connector tdx-stepper__connector--before"
-        [class.tdx-stepper__connector--hidden]="first"
         aria-hidden="true"
       ></span>
 
@@ -38,7 +37,6 @@
 
       <span
         class="tdx-stepper__connector tdx-stepper__connector--after"
-        [class.tdx-stepper__connector--hidden]="last"
         aria-hidden="true"
       ></span>
     </li>
@@ -69,7 +67,9 @@
 
 <ng-template #stepContent let-step="step" let-index="index">
   <span class="tdx-stepper__indicator" aria-hidden="true">
-    <span class="tdx-stepper__icon material-symbols-rounded">
+    <span
+      class="tdx-stepper__icon material-symbols-rounded"
+      [style.font-variation-settings]="getIconFontVariation(step, index)">
       {{ getIndicatorIcon(step, index) }}
     </span>
 

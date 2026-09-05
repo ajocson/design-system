@@ -23,6 +23,8 @@ export class StepperComponent {
   @Input() nextLabel = 'Next';
   @Input() showPreviewControls = false;
   @Input() clickableSteps = false;
+  @Input() iconName = 'docs';
+  @Input() customIconFill = true;
 
   @Output() currentIndexChange = new EventEmitter<number>();
   @Output() stepChange = new EventEmitter<StepperStep>();
@@ -101,6 +103,10 @@ export class StepperComponent {
       return 'warning';
     }
 
+    if (visualState === 'custom') {
+      return step.iconName || this.iconName;
+    }
+
     if (visualState === 'current' || visualState === 'upcoming' || visualState === 'disabled') {
       return 'circle';
     }
@@ -111,6 +117,15 @@ export class StepperComponent {
   shouldShowStepNumber(step: StepperStep, index: number): boolean {
     const visualState = this.getStepVisualState(step, index);
     return visualState === 'current' || visualState === 'upcoming' || visualState === 'disabled';
+  }
+
+  getIconFontVariation(step: StepperStep, index: number): string | null {
+    if (this.getStepVisualState(step, index) !== 'custom') {
+      return null;
+    }
+
+    const fill = step.customIconFill ?? this.customIconFill;
+    return `'FILL' ${fill ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`;
   }
 
   isStepDisabled(step: StepperStep): boolean {

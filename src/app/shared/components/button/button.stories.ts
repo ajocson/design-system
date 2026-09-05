@@ -121,7 +121,8 @@ const ButtonDocsPage = () =>
         [disabled]="disabled"
         [loading]="loading"
         [leftIcon]="leftIcon"
-        [rightIcon]="rightIcon">
+        [rightIcon]="rightIcon"
+        [iconFill]="iconFill">
       </tdx-button>
     </section>
   `,
@@ -169,6 +170,8 @@ class ButtonStoryHostComponent {
   @Input() leftIcon?: string;
 
   @Input() rightIcon?: string;
+
+  @Input() iconFill = true;
 
   @Input() theme: ButtonStoryTheme = 'light';
 
@@ -275,6 +278,11 @@ const meta: Meta<ButtonStoryHostComponent> = {
       control: 'text',
     },
 
+    iconFill: {
+      control: 'boolean',
+      description: 'Filled Material Symbols when true; outlined Material Symbols when false.',
+    },
+
     theme: {
       control: 'inline-radio',
       options: ['light', 'dark'],
@@ -297,6 +305,7 @@ export const Playground: Story = {
     loading: false,
     leftIcon: 'add',
     rightIcon: '',
+    iconFill: true,
     theme: 'light',
   },
 };
@@ -312,6 +321,7 @@ export const IconOnly: Story = {
     loading: false,
     leftIcon: 'menu',
     rightIcon: '',
+    iconFill: true,
     theme: 'light',
   },
 };

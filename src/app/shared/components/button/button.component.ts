@@ -18,6 +18,7 @@ export class ButtonComponent {
   @Input() loading = false;
   @Input() leftIcon: TdxButtonIcon = null;
   @Input() rightIcon: TdxButtonIcon = null;
+  @Input() iconFill = true;
   @Input() ariaLabel?: string;
   @Input() ariaExpanded?: boolean;
   @Input() ariaControls?: string;
@@ -49,6 +50,10 @@ export class ButtonComponent {
 
   get isLoading(): boolean {
     return this.loading && !this.disabled;
+  }
+
+  get iconFontVariation(): string {
+    return `'FILL' ${this.iconFill ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`;
   }
 
   get resolvedEmphasis(): TdxButtonEmphasis {

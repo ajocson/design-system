@@ -136,6 +136,16 @@ describe('ButtonComponent', () => {
     expect(getComputedStyle(icon).fontVariationSettings).toContain('1');
   });
 
+  it('supports outlined Material Symbols through iconFill', () => {
+    fixture.componentRef.setInput('leftIcon', 'home');
+    fixture.componentRef.setInput('iconFill', false);
+    fixture.detectChanges();
+
+    const icon = fixture.debugElement.query(By.css('.tdx-button__icon')).nativeElement as HTMLElement;
+
+    expect(getComputedStyle(icon).fontVariationSettings).toContain('0');
+  });
+
   it('preserves the Figma loading width for each supported size', () => {
     for (const size of Object.values(TdxButtonSize)) {
       fixture.componentRef.setInput('size', size as TdxButtonSize);

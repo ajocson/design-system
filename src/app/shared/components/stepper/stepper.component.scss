@@ -224,6 +224,10 @@ button.tdx-stepper__step:focus-visible {
   color: var(--stepper-icon-warning);
 }
 
+.tdx-stepper__item--custom .tdx-stepper__indicator {
+  color: var(--stepper-icon-custom);
+}
+
 .tdx-stepper__item--disabled .tdx-stepper__indicator {
   color: var(--stepper-icon-disabled);
   opacity: var(--stepper-icon-opacity);

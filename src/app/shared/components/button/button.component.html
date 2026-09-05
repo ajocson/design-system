@@ -22,7 +22,11 @@
   </span>
 
   <ng-container *ngIf="!isLoading">
-    <span *ngIf="leftIcon" class="tdx-button__icon material-symbols-rounded" aria-hidden="true">
+    <span
+      *ngIf="leftIcon"
+      class="tdx-button__icon material-symbols-rounded"
+      [style.font-variation-settings]="iconFontVariation"
+      aria-hidden="true">
       {{ leftIcon }}
     </span>
 
@@ -30,7 +34,11 @@
       {{ label }}
     </span>
 
-    <span *ngIf="rightIcon" class="tdx-button__icon material-symbols-rounded" aria-hidden="true">
+    <span
+      *ngIf="rightIcon"
+      class="tdx-button__icon material-symbols-rounded"
+      [style.font-variation-settings]="iconFontVariation"
+      aria-hidden="true">
       {{ rightIcon }}
     </span>
   </ng-container>

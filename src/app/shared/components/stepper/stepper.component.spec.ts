@@ -67,6 +67,83 @@ describe('StepperComponent', () => {
     expect(items[2].query(By.css('.tdx-stepper__step')).nativeElement.tagName.toLowerCase()).toBe('div');
   });
 
+  it('renders a custom state with its configured icon and overrides currentIndex derivation', () => {
+    fixture.componentRef.setInput('currentIndex', 1);
+    fixture.componentRef.setInput('steps', [
+      { label: 'Account' },
+      { label: 'Documents', state: 'custom', iconName: 'home', customIconFill: false },
+    ]);
+    fixture.detectChanges();
+
+    const item = fixture.debugElement.queryAll(By.css('.tdx-stepper__item'))[1];
+    const icon = item.query(By.css('.tdx-stepper__icon'));
+
+    expect(item.nativeElement.dataset['state']).toBe('custom');
+    expect(icon.nativeElement.textContent.trim()).toBe('home');
+    expect(icon.nativeElement.style.fontVariationSettings).toContain('"FILL" 0');
+    expect(item.query(By.css('.tdx-stepper__number'))).toBeNull();
+  });
+
+  it('supports component-level icon name and fill inputs', () => {
+    fixture.componentRef.setInput('steps', [{ label: 'Custom', state: 'custom' }]);
+    fixture.componentRef.setInput('iconName', 'verified');
+    fixture.componentRef.setInput('customIconFill', false);
+    fixture.detectChanges();
+
+    const icon = fixture.debugElement.query(By.css('.tdx-stepper__icon')).nativeElement as HTMLElement;
+
+    expect(icon.textContent.trim()).toBe('verified');
+    expect(icon.style.fontVariationSettings).toContain('"FILL" 0');
+  });
+
+  it('uses the default custom icon only for custom states', () => {
+    fixture.componentRef.setInput('steps', [
+      { label: 'Custom', state: 'custom' },
+      { label: 'Upcoming' },
+    ]);
+    fixture.detectChanges();
+
+    const icons = fixture.debugElement.queryAll(By.css('.tdx-stepper__icon'));
+
+    expect(icons[0].nativeElement.textContent.trim()).toBe('docs');
+    expect(icons[1].nativeElement.textContent.trim()).toBe('circle');
+  });
+
+  it('keeps incomplete on the fixed warning icon and semantic color', () => {
+    fixture.componentRef.setInput('steps', [{ label: 'Incomplete', state: 'incomplete', iconName: 'home' }]);
+    fixture.detectChanges();
+
+    const item = fixture.debugElement.query(By.css('.tdx-stepper__item'));
+    const icon = item.query(By.css('.tdx-stepper__icon'));
+
+    expect(icon.nativeElement.textContent.trim()).toBe('warning');
+    expect(getComputedStyle(item.query(By.css('.tdx-stepper__indicator')).nativeElement).color).toBe('rgb(249, 159, 27)');
+  });
+
+  it('applies connector visibility to a single-step vertical Stepper', () => {
+    fixture.componentRef.setInput('orientation', 'vertical');
+    fixture.componentRef.setInput('showRightConnector', false);
+    fixture.componentRef.setInput('steps', [{ label: 'Current', state: 'current' }]);
+    fixture.detectChanges();
+
+    const connector = fixture.debugElement.query(By.css('.tdx-stepper__connector--after')).nativeElement as HTMLElement;
+    expect(connector.classList).not.toContain('tdx-stepper__connector--hidden');
+    expect(getComputedStyle(connector).visibility).toBe('hidden');
+  });
+
+  it('applies left and right connector visibility to a single-step horizontal Stepper', () => {
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput('showLeftConnector', false);
+    fixture.componentRef.setInput('showRightConnector', true);
+    fixture.componentRef.setInput('steps', [{ label: 'Current', state: 'current' }]);
+    fixture.detectChanges();
+
+    const before = fixture.debugElement.query(By.css('.tdx-stepper__connector--before')).nativeElement as HTMLElement;
+    const after = fixture.debugElement.query(By.css('.tdx-stepper__connector--after')).nativeElement as HTMLElement;
+    expect(getComputedStyle(before).visibility).toBe('hidden');
+    expect(getComputedStyle(after).visibility).toBe('visible');
+  });
+
   it('keeps the vertical connector within the 38px step geometry', () => {
     fixture.nativeElement.style.setProperty('--stepper-indicator-size', '20px');
     fixture.nativeElement.style.setProperty('--stepper-vertical-connector-gap', '2px');
