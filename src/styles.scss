@@ -337,7 +337,7 @@
   --tag-radius: var(--radius-round);
   --tag-border-width: var(--border-width-xs-1);
   --tag-focus-ring-width: var(--border-width-xs-2);
-  --tag-focus-ring-offset: 3px;
+  --tag-focus-ring-offset: var(--space-2xs);
   --tag-focus-ring: var(--focus-default);
   --tag-disabled-opacity: 40%;
 
