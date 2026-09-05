@@ -67,6 +67,45 @@ describe('StepperComponent', () => {
     expect(items[2].query(By.css('.tdx-stepper__step')).nativeElement.tagName.toLowerCase()).toBe('div');
   });
 
+  it('keeps the vertical connector within the 38px step geometry', () => {
+    fixture.nativeElement.style.setProperty('--stepper-indicator-size', '20px');
+    fixture.nativeElement.style.setProperty('--stepper-vertical-connector-gap', '2px');
+    fixture.nativeElement.style.setProperty('--stepper-vertical-connector-size', '18px');
+    fixture.nativeElement.style.setProperty('--stepper-connector-thickness', '2px');
+    fixture.componentRef.setInput('orientation', 'vertical');
+    fixture.componentRef.setInput('steps', [{ label: 'Account' }, { label: 'Profile' }]);
+    fixture.detectChanges();
+
+    const connector = fixture.debugElement.query(By.css('.tdx-stepper__connector--after')).nativeElement as HTMLElement;
+    const styles = getComputedStyle(connector);
+
+    expect(styles.top).toBe('20px');
+    expect(styles.height).toBe('18px');
+    expect(styles.width).toBe('2px');
+  });
+
+  it('uses Figma disabled opacity for indicators and labels', () => {
+    fixture.componentRef.setInput('steps', [{ label: 'Disabled', state: 'disabled' }]);
+    fixture.componentRef.setInput('orientation', 'vertical');
+    fixture.detectChanges();
+
+    const indicator = fixture.debugElement.query(By.css('.tdx-stepper__indicator')).nativeElement as HTMLElement;
+    const label = fixture.debugElement.query(By.css('.tdx-stepper__label')).nativeElement as HTMLElement;
+
+    expect(getComputedStyle(indicator).opacity).toBe('0.3');
+    expect(getComputedStyle(label).opacity).toBe('0.4');
+  });
+
+  it('keeps the horizontal disabled label at 40% opacity', () => {
+    fixture.componentRef.setInput('steps', [{ label: 'Disabled', state: 'disabled' }]);
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.detectChanges();
+
+    const label = fixture.debugElement.query(By.css('.tdx-stepper__label')).nativeElement as HTMLElement;
+
+    expect(getComputedStyle(label).opacity).toBe('0.4');
+  });
+
   it('uses the Figma completed-state icon', () => {
     fixture.componentRef.setInput('steps', [{ label: 'Account', state: 'completed' }]);
     fixture.detectChanges();
@@ -167,6 +206,32 @@ describe('StepperComponent', () => {
     expect(root.classList).toContain('tdx-stepper--horizontal');
     expect(root.classList).toContain('tdx-stepper--hide-left-connector');
     expect(root.classList).toContain('tdx-stepper--hide-right-connector');
+  });
+
+  it('hides the configured vertical right connector without changing the API', () => {
+    fixture.componentRef.setInput('orientation', 'vertical');
+    fixture.componentRef.setInput('showRightConnector', false);
+    fixture.componentRef.setInput('steps', [{ label: 'Account' }, { label: 'Profile' }]);
+    fixture.detectChanges();
+
+    const root = fixture.debugElement.query(By.css('.tdx-stepper')).nativeElement as HTMLElement;
+
+    expect(root.classList).toContain('tdx-stepper--hide-right-connector');
+  });
+
+  it('supports Arrow, Home, and End keyboard navigation', () => {
+    spyOn(component.currentIndexChange, 'emit');
+    fixture.componentRef.setInput('clickableSteps', true);
+    fixture.componentRef.setInput('currentIndex', 1);
+    fixture.detectChanges();
+
+    component.onStepKeydown(new KeyboardEvent('keydown', { key: 'ArrowRight' }), 1);
+    component.onStepKeydown(new KeyboardEvent('keydown', { key: 'Home' }), 2);
+    component.onStepKeydown(new KeyboardEvent('keydown', { key: 'End' }), 0);
+
+    expect(component.currentIndexChange.emit).toHaveBeenCalledWith(2);
+    expect(component.currentIndexChange.emit).toHaveBeenCalledWith(0);
+    expect(component.currentIndexChange.emit).toHaveBeenCalledWith(2);
   });
 
   it('keeps orientation visual and not on the native ordered list ARIA', () => {

@@ -24,7 +24,9 @@ type StepperStoryTheme = 'light' | 'dark';
       <tdx-stepper
         [steps]="steps"
         [orientation]="orientation"
-        [currentIndex]="currentIndex">
+        [currentIndex]="currentIndex"
+        [showLeftConnector]="showLeftConnector"
+        [showRightConnector]="showRightConnector">
       </tdx-stepper>
 
       <div class="tdx-stepper-story__controls" aria-label="Stepper preview controls">
@@ -88,6 +90,8 @@ class StepperStoryHostComponent {
   @Input() steps: StepperStep[] = DEFAULT_STEPS;
   @Input() orientation: StepperOrientation = 'vertical';
   @Input() theme: StepperStoryTheme = 'light';
+  @Input() showLeftConnector = true;
+  @Input() showRightConnector = true;
 
   get currentIndex(): number {
     const configuredCurrentIndex = this.steps.findIndex((step) => step.state === 'current');
@@ -136,13 +140,79 @@ class StepperStoryHostComponent {
   }
 }
 
+const MATRIX_STEPS: StepperStep[] = [
+  { label: 'Completed', state: 'completed', number: 1 },
+  { label: 'Current', state: 'current', number: 2 },
+  { label: 'Upcoming', state: 'upcoming', number: 3 },
+  { label: 'Incomplete', state: 'incomplete', number: 4 },
+  { label: 'Disabled', state: 'disabled', number: 5 },
+];
+
+@Component({
+  selector: 'tdx-stepper-matrix-story',
+  standalone: false,
+  template: `
+    <div class="tdx-stepper-matrix-story">
+      <section *ngFor="let theme of themes" class="tdx-stepper-matrix-story__theme" [attr.data-theme]="theme">
+        <h3>{{ theme }} theme</h3>
+        <div *ngFor="let orientation of orientations" class="tdx-stepper-matrix-story__orientation">
+          <h4>{{ orientation }} orientation</h4>
+          <tdx-stepper
+            [steps]="steps"
+            [orientation]="orientation"
+            [showLeftConnector]="true"
+            [showRightConnector]="true">
+          </tdx-stepper>
+        </div>
+      </section>
+    </div>
+  `,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .tdx-stepper-matrix-story {
+        display: grid;
+        gap: var(--space-3xl);
+        padding: var(--space-6xl);
+      }
+
+      .tdx-stepper-matrix-story__theme {
+        background: var(--alias-surface-default);
+        display: grid;
+        gap: var(--space-xl);
+        padding: var(--space-3xl);
+      }
+
+      .tdx-stepper-matrix-story__orientation {
+        display: grid;
+        gap: var(--space-md);
+        min-width: 0;
+      }
+
+      @media (max-width: 767px) {
+        .tdx-stepper-matrix-story {
+          padding: var(--space-3xl);
+        }
+      }
+    `,
+  ],
+})
+class StepperMatrixStoryComponent {
+  readonly themes: StepperStoryTheme[] = ['light', 'dark'];
+  readonly orientations = STEPPER_ORIENTATIONS;
+  readonly steps = MATRIX_STEPS;
+}
+
 const meta: Meta<StepperStoryHostComponent> = {
   title: 'Components/Stepper',
   component: StepperStoryHostComponent,
   decorators: [
     moduleMetadata({
       imports: [ButtonModule, CommonModule, StepperModule],
-      declarations: [StepperStoryHostComponent],
+      declarations: [StepperMatrixStoryComponent, StepperStoryHostComponent],
     }),
   ],
   argTypes: {
@@ -157,6 +227,12 @@ const meta: Meta<StepperStoryHostComponent> = {
     theme: {
       control: 'inline-radio',
       options: ['light', 'dark'],
+    },
+    showLeftConnector: {
+      control: 'boolean',
+    },
+    showRightConnector: {
+      control: 'boolean',
     },
   },
 };
@@ -196,5 +272,26 @@ export const HorizontalStepper: Story = {
     steps: DEFAULT_STEPS,
     orientation: 'horizontal',
     theme: 'light',
+  },
+};
+
+export const StateMatrix: Story = {
+  render: () => ({
+    template: '<tdx-stepper-matrix-story></tdx-stepper-matrix-story>',
+  }),
+  parameters: {
+    controls: {
+      disable: true,
+    },
+  },
+};
+
+export const ConnectorControls: Story = {
+  args: {
+    steps: DEFAULT_STEPS,
+    orientation: 'horizontal',
+    theme: 'light',
+    showLeftConnector: false,
+    showRightConnector: true,
   },
 };

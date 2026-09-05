@@ -152,13 +152,10 @@ button.tdx-stepper__step:focus-visible {
 }
 
 .tdx-stepper--vertical .tdx-stepper__connector {
-  height: calc(
-    var(--stepper-vertical-connector-size) - var(--stepper-vertical-connector-gap) -
-      var(--stepper-vertical-connector-gap)
-  );
+  height: var(--stepper-vertical-connector-size);
   left: calc((var(--stepper-indicator-size) - var(--stepper-connector-thickness)) / 2);
   position: absolute;
-  top: calc(var(--stepper-indicator-size) + var(--stepper-vertical-connector-gap));
+  top: var(--stepper-indicator-size);
   width: var(--stepper-connector-thickness);
 }
 
@@ -229,7 +226,7 @@ button.tdx-stepper__step:focus-visible {
 
 .tdx-stepper__item--disabled .tdx-stepper__indicator {
   color: var(--stepper-icon-disabled);
-  opacity: var(--stepper-disabled-opacity);
+  opacity: var(--stepper-icon-opacity);
 }
 
 .tdx-stepper__item--disabled .tdx-stepper__label {
