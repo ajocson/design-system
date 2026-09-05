@@ -14,7 +14,6 @@ An Angular implementation of the Design System. The repository provides reusable
 - Progress Bar
 - Stepper
 - Tag
-- Progress Indicator
 
 ## Component API inventory
 
@@ -22,7 +21,6 @@ An Angular implementation of the Design System. The repository provides reusable
 | --- | --- | --- | --- |
 | Button | `tdx-button`, `app-button` | `label`, `variant`, `emphasis`, `appearance`, `size`, `disabled`, `loading`, `leftIcon`, `rightIcon`, `ariaLabel`, `ariaExpanded`, `ariaControls`, `ariaPressed` | `clicked` |
 | Progress Bar | `tdx-progress-bar`, `app-progress-bar` | `variant` (`brand`, `success`, `processing`), `progress`, `ariaLabel`, `ariaValueText` | — |
-| Progress Indicator | `tdx-progress-indicator`, `app-progress-indicator` | `label`, `valueType` (`fraction`, `percentage`), `progress`, `showFractionValue`, `fractionValue`, `showPercentValue`, `percentageValue`, `showCancel` | `cancelled` |
 | Stepper | `tdx-stepper`, `app-stepper` | `steps`, `currentIndex`, `orientation` (`vertical`, `horizontal`), `showLeftConnector`, `showRightConnector`, `backLabel`, `nextLabel`, `showPreviewControls`, `clickableSteps` | `currentIndexChange`, `stepChange` |
 | Tag | `tdx-tag`, `app-tag` | `label`, `variant`, `emphasis`, `leadingIcon`, `removable`, `disabled` | `removed` |
 
@@ -63,7 +61,6 @@ src/
       progress-bar/                 Reusable Progress Bar component
       stepper/                      Reusable Stepper component
       tag/                          Reusable Tag component
-      progress-indicator/           Reusable Progress Indicator component
   styles.scss                       Global design tokens and theme mappings
 ```
 
