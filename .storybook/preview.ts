@@ -25,6 +25,8 @@ const preview: Preview = {
             'Tag',
             'Progress Bar',
             ['Playground', 'Brand', 'Success', 'Processing'],
+            'Section Message',
+            ['Docs', 'Playground'],
           ],
         ],
       },

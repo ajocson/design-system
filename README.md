@@ -12,6 +12,7 @@ An Angular implementation of the Design System. The repository provides reusable
 
 - Button
 - Progress Bar
+- Section Message
 - Stepper
 - Tag
 
@@ -21,6 +22,7 @@ An Angular implementation of the Design System. The repository provides reusable
 | --- | --- | --- | --- |
 | Button | `tdx-button`, `app-button` | `label`, `variant`, `emphasis`, `appearance`, `size`, `disabled`, `loading`, `leftIcon`, `rightIcon`, `ariaLabel`, `ariaExpanded`, `ariaControls`, `ariaPressed` | `clicked` |
 | Progress Bar | `tdx-progress-bar`, `app-progress-bar` | `variant` (`brand`, `success`, `processing`), `progress`, `ariaLabel`, `ariaValueText` | — |
+| Section Message | `tdx-section-message`, `app-section-message` | `title`, `description`, `appearance` (`info`, `success`, `warning`, `error`, `discovery`), `size` (`large`, `medium`), `showTitle`, `showDescription`, `showAction1`, `showAction2`, `label1`, `label2`, `isDismissible`, `icon`, `iconFill` | `action1Clicked`, `action2Clicked`, `dismissed` |
 | Stepper | `tdx-stepper`, `app-stepper` | `steps`, `currentIndex`, `orientation` (`vertical`, `horizontal`), `showLeftConnector`, `showRightConnector`, `backLabel`, `nextLabel`, `showPreviewControls`, `clickableSteps` | `currentIndexChange`, `stepChange` |
 | Tag | `tdx-tag`, `app-tag` | `label`, `variant`, `emphasis`, `leadingIcon`, `removable`, `disabled` | `removed` |
 
@@ -59,6 +61,7 @@ src/
     shared/components/
       button/                       Reusable Button component
       progress-bar/                 Reusable Progress Bar component
+      section-message/              Reusable Section Message component
       stepper/                      Reusable Stepper component
       tag/                          Reusable Tag component
   styles.scss                       Global design tokens and theme mappings

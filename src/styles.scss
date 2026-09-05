@@ -526,6 +526,50 @@
   --stepper-text-default: var(--text-neutral-primary);
   --stepper-text-current: var(--text-secondary-default);
   --stepper-connector-bg-default: var(--border-neutral-default-tertiary);
+
+  /* Figma mapped/component tokens for Section Message. */
+  --section-message-width: 607px;
+  --section-message-gap: var(--space-md);
+  --section-message-content-gap: var(--space-xs);
+  --section-message-padding-top: var(--space-xl);
+  --section-message-padding-inline: var(--space-xl);
+  --section-message-padding-bottom: var(--space-xl);
+  --section-message-radius: var(--radius-md);
+  --section-message-icon-size: 24px;
+  --section-message-action-gap: var(--space-xl);
+  --section-message-title-font-size: 16px;
+  --section-message-title-line-height: 24px;
+  --section-message-title-font-weight: 700;
+  --section-message-description-font-size: 14px;
+  --section-message-description-line-height: 20px;
+  --section-message-description-font-weight: 400;
+  --section-message-text: var(--text-neutral-primary);
+  --section-message-dismiss-icon: var(--text-neutral-primary);
+  --section-message-bg-info: var(--background-info-subtle-hover);
+  --section-message-bg-success: var(--background-success-subtle-default);
+  --section-message-bg-warning: var(--background-warning-subtle-hover);
+  --section-message-bg-error: var(--background-danger-subtle-default);
+  --section-message-bg-discovery: var(--background-brand-subtle-brand);
+  --section-message-icon-info: var(--icon-info-hover);
+  --section-message-icon-success: var(--icon-success-default);
+  --section-message-icon-warning: var(--icon-warning-subtle-default);
+  --section-message-icon-error: var(--icon-error-default);
+  --section-message-icon-discovery: var(--background-brand-default-accent);
+  --section-message-action-info: var(--icon-info-hover);
+  --section-message-action-success: var(--text-success-default);
+  --section-message-action-warning: var(--text-warning-subtle-default);
+  --section-message-action-error: var(--text-error-subtle-default);
+  --section-message-action-discovery: var(--text-brand-subtle-brand);
+  --section-message-medium-width: 537px;
+  --section-message-medium-gap: var(--space-xs);
+  --section-message-medium-padding-top: var(--space-md);
+  --section-message-medium-padding-inline: var(--space-lg);
+  --section-message-medium-padding-bottom: var(--space-lg);
+  --section-message-medium-icon-size: 20px;
+  --section-message-medium-title-font-size: 14px;
+  --section-message-medium-title-line-height: 20px;
+  --section-message-medium-description-font-size: 12px;
+  --section-message-medium-description-line-height: 16px;
 }
 
 [data-theme='dark'] {
@@ -910,6 +954,25 @@
   --stepper-indicator-number-text: var(--text-neutral-inverse);
   --stepper-text-default: var(--text-neutral-primary);
   --stepper-text-current: var(--text-secondary-default);
+
+  /* Dark-mode mappings for Section Message. */
+  --section-message-text: var(--text-neutral-primary);
+  --section-message-dismiss-icon: var(--text-neutral-primary);
+  --section-message-bg-info: var(--background-info-subtle-hover);
+  --section-message-bg-success: var(--background-success-subtle-default);
+  --section-message-bg-warning: var(--background-warning-subtle-hover);
+  --section-message-bg-error: var(--background-danger-subtle-default);
+  --section-message-bg-discovery: var(--background-brand-subtle-brand);
+  --section-message-icon-info: var(--icon-info-hover);
+  --section-message-icon-success: var(--icon-success-default);
+  --section-message-icon-warning: var(--icon-warning-subtle-default);
+  --section-message-icon-error: var(--icon-error-default);
+  --section-message-icon-discovery: var(--background-brand-default-accent);
+  --section-message-action-info: var(--icon-info-hover);
+  --section-message-action-success: var(--text-success-default);
+  --section-message-action-warning: var(--text-warning-subtle-default);
+  --section-message-action-error: var(--text-error-subtle-default);
+  --section-message-action-discovery: var(--text-brand-subtle-brand);
 }
 
 @media (max-width: 767px) {
