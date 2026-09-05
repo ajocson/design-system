@@ -25,6 +25,7 @@ const preview: Preview = {
             'Tag',
             'Progress Bar',
             ['Playground', 'Brand', 'Success', 'Processing'],
+            'Progress Indicator',
           ],
         ],
       },

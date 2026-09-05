@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tdx-angular-button-preview": {
+    "design-system": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -12,23 +12,17 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "tdx",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/tdx-angular-button-preview",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": ".angular/storybook-host",
+            "index": ".storybook/index.html",
+            "browser": ".storybook/empty.ts",
+            "polyfills": [],
+            "tsConfig": ".storybook/tsconfig.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
             "styles": [
               "src/styles.scss"
             ],
@@ -36,18 +30,7 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "24kb",
-                  "maximumError": "32kb"
-                }
-              ],
+              "optimization": true,
               "outputHashing": "all"
             },
             "development": {
@@ -55,18 +38,6 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "tdx-angular-button-preview:build:production"
-            },
-            "development": {
-              "buildTarget": "tdx-angular-button-preview:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,10 +51,6 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
             "styles": [
               "src/styles.scss"
             ],
@@ -94,7 +61,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "tdx-angular-button-preview:build",
+            "browserTarget": "design-system:build",
             "compodoc": false,
             "port": 6006,
             "styles": [
@@ -106,12 +73,12 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "tdx-angular-button-preview:build",
+            "browserTarget": "design-system:build",
             "compodoc": false,
             "outputDir": "storybook-static",
-              "styles": [
-                "src/styles.scss"
-              ]
+            "styles": [
+              "src/styles.scss"
+            ]
           }
         }
       }
