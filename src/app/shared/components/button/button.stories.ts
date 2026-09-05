@@ -209,6 +209,112 @@ class ButtonStoryHostComponent {
   }
 }
 
+@Component({
+  selector: 'tdx-button-matrix-story-host',
+  standalone: false,
+  template: `
+    <section class="tdx-button-matrix" [attr.data-theme]="theme">
+      <div *ngFor="let variant of variants" class="tdx-button-matrix__row">
+        <strong>{{ variant }}</strong>
+        <div class="tdx-button-matrix__buttons">
+          <tdx-button
+            *ngFor="let emphasis of emphases"
+            [label]="emphasis"
+            [variant]="variant"
+            [emphasis]="emphasis"
+            [size]="size"
+            leftIcon="add">
+          </tdx-button>
+        </div>
+      </div>
+    </section>
+  `,
+  styles: [
+    `
+      .tdx-button-matrix {
+        background: var(--alias-surface-default);
+        color: var(--text-neutral-primary);
+        display: grid;
+        gap: var(--space-xl);
+        padding: var(--space-4xl);
+      }
+
+      .tdx-button-matrix__row {
+        align-items: center;
+        display: grid;
+        gap: var(--space-xl);
+        grid-template-columns: 96px 1fr;
+      }
+
+      .tdx-button-matrix__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xl);
+      }
+    `,
+  ],
+})
+class ButtonMatrixStoryHostComponent {
+  @Input() theme: ButtonStoryTheme = 'light';
+  @Input() size: TdxButtonSize = TdxButtonSize.Medium;
+
+  variants = TDX_BUTTON_VARIANTS;
+  emphases = TDX_BUTTON_EMPHASIS;
+}
+
+@Component({
+  selector: 'tdx-button-state-matrix-story-host',
+  standalone: false,
+  template: `
+    <section class="tdx-button-state-matrix" [attr.data-theme]="theme">
+      <tdx-button label="Default" leftIcon="add"></tdx-button>
+      <tdx-button
+        label="Hover"
+        leftIcon="add"
+        [ngStyle]="stateStyles('hover')">
+      </tdx-button>
+      <tdx-button
+        label="Pressed"
+        leftIcon="add"
+        [ngStyle]="stateStyles('pressed')">
+      </tdx-button>
+      <tdx-button
+        label="Focus"
+        leftIcon="add"
+        class="tdx-button-story__button--focus">
+      </tdx-button>
+      <tdx-button label="Disabled" leftIcon="add" [disabled]="true"></tdx-button>
+    </section>
+  `,
+  styles: [
+    `
+      .tdx-button-state-matrix {
+        align-items: center;
+        background: var(--alias-surface-default);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xl);
+        padding: var(--space-4xl);
+      }
+
+      .tdx-button-story__button--focus {
+        box-shadow: 0 0 0 var(--border-width-xs-2) var(--button-focus-ring);
+      }
+    `,
+  ],
+})
+class ButtonStateMatrixStoryHostComponent {
+  @Input() theme: ButtonStoryTheme = 'light';
+
+  stateStyles(state: 'hover' | 'pressed'): Record<string, string> {
+    const tokenState = state === 'hover' ? 'hover' : 'pressed';
+
+    return {
+      '--button-primary-filled-bg-default': `var(--button-primary-filled-bg-${tokenState})`,
+    };
+  }
+}
+
 const meta: Meta<ButtonStoryHostComponent> = {
   title: 'Components/Button',
   component: ButtonStoryHostComponent,
@@ -230,7 +336,11 @@ const meta: Meta<ButtonStoryHostComponent> = {
   decorators: [
     moduleMetadata({
       imports: [CommonModule, ButtonModule],
-      declarations: [ButtonStoryHostComponent],
+      declarations: [
+        ButtonStoryHostComponent,
+        ButtonMatrixStoryHostComponent,
+        ButtonStateMatrixStoryHostComponent,
+      ],
     }),
   ],
 
@@ -450,5 +560,72 @@ export const Disabled: Story = {
     leftIcon: '',
     rightIcon: '',
     theme: 'light',
+  },
+};
+
+export const VariantAndEmphasisMatrix: StoryObj<ButtonMatrixStoryHostComponent> = {
+  render: (args) => ({
+    props: args,
+    template: '<tdx-button-matrix-story-host [size]="size" [theme]="theme"></tdx-button-matrix-story-host>',
+  }),
+  args: {
+    size: TdxButtonSize.Medium,
+    theme: 'light',
+  },
+  argTypes: {
+    size: {
+      control: 'select',
+      options: TDX_BUTTON_SIZES,
+    },
+    theme: {
+      control: 'inline-radio',
+      options: ['light', 'dark'],
+    },
+  },
+};
+
+export const StateMatrix: StoryObj<ButtonStateMatrixStoryHostComponent> = {
+  render: (args) => ({
+    props: args,
+    template: '<tdx-button-state-matrix-story-host [theme]="theme"></tdx-button-state-matrix-story-host>',
+  }),
+  args: {
+    theme: 'light',
+  },
+  argTypes: {
+    theme: {
+      control: 'inline-radio',
+      options: ['light', 'dark'],
+    },
+  },
+};
+
+export const IconOnly: Story = {
+  args: {
+    label: '',
+    variant: TdxButtonVariant.Primary,
+    emphasis: TdxButtonEmphasis.DEFAULT,
+    state: 'default',
+    size: TdxButtonSize.Large,
+    disabled: false,
+    loading: false,
+    leftIcon: 'menu',
+    rightIcon: '',
+    theme: 'light',
+  },
+};
+
+export const DarkTheme: Story = {
+  args: {
+    label: 'Dark Theme',
+    variant: TdxButtonVariant.Primary,
+    emphasis: TdxButtonEmphasis.DEFAULT,
+    state: 'default',
+    size: TdxButtonSize.Medium,
+    disabled: false,
+    loading: false,
+    leftIcon: 'add',
+    rightIcon: '',
+    theme: 'dark',
   },
 };

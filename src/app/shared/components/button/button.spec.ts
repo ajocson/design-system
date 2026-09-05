@@ -126,6 +126,65 @@ describe('ButtonComponent', () => {
     expect(icons[1].nativeElement.textContent).toContain('arrow_forward');
   });
 
+  it('uses the filled Material Symbols treatment for Button icons', () => {
+    fixture.componentRef.setInput('leftIcon', 'home');
+    fixture.detectChanges();
+
+    const icon = fixture.debugElement.query(By.css('.tdx-button__icon')).nativeElement as HTMLElement;
+
+    expect(getComputedStyle(icon).fontVariationSettings).toContain('FILL');
+    expect(getComputedStyle(icon).fontVariationSettings).toContain('1');
+  });
+
+  it('preserves the Figma loading width for each supported size', () => {
+    for (const size of Object.values(TdxButtonSize)) {
+      fixture.componentRef.setInput('size', size as TdxButtonSize);
+      fixture.componentRef.setInput('loading', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+      const loading = fixture.debugElement.query(By.css('.tdx-button__loading')).nativeElement as HTMLElement;
+      const styles = getComputedStyle(button);
+
+      expect(loading.getBoundingClientRect().width).toBe(48);
+      expect(button.getBoundingClientRect().width).toBe(
+        48 +
+          parseFloat(styles.paddingLeft) +
+          parseFloat(styles.paddingRight) +
+          parseFloat(styles.borderLeftWidth) +
+          parseFloat(styles.borderRightWidth),
+      );
+    }
+  });
+
+  it('uses the Figma icon-only dimensions without changing standard Button heights', () => {
+    fixture.componentRef.setInput('label', '');
+    fixture.componentRef.setInput('leftIcon', 'menu');
+
+    const expectedDimensions: Record<TdxButtonSize, number> = {
+      [TdxButtonSize.Small]: 32,
+      [TdxButtonSize.Medium]: 40,
+      [TdxButtonSize.Large]: 48,
+    };
+
+    for (const [size, expectedDimension] of Object.entries(expectedDimensions)) {
+      fixture.componentRef.setInput('size', size as TdxButtonSize);
+      fixture.detectChanges();
+
+      const iconOnlyButton = fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+
+      expect(iconOnlyButton.getBoundingClientRect().width).toBe(expectedDimension);
+      expect(iconOnlyButton.getBoundingClientRect().height).toBe(expectedDimension);
+    }
+
+    fixture.componentRef.setInput('label', 'Button');
+    fixture.detectChanges();
+
+    const standardLargeButton = fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+
+    expect(standardLargeButton.getBoundingClientRect().height).toBe(52);
+  });
+
   it('forwards accessibility inputs to the native button', () => {
     fixture.componentRef.setInput('ariaLabel', 'Open menu');
     fixture.componentRef.setInput('ariaExpanded', true);
